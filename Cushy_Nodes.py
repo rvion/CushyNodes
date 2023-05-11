@@ -212,9 +212,6 @@ class Cushy_Select_Mask_CLIP:
 
     def clip_select_mask(self, masked_images, text):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        #masked_images = masked_images.to(device)
-
-        print(masked_images.shape)
 
         # Load the CLIP model
         clip_model, preprocess = clip.load('ViT-B/32')
@@ -244,15 +241,11 @@ class Cushy_Select_Mask_CLIP:
             with torch.no_grad():
                 image_features = clip_model.encode_image(preprocessed_image)
 
-            # Add the print statement to show the image_features
-            #print(f"Image features for index {i}: {image_features}")
-
             # Calculate the similarity between the text and image features
             similarity = torch.nn.functional.cosine_similarity(text_features, image_features)
 
             # Update the best match if the current similarity is higher
             if similarity > best_match_similarity:
-                #print("New highest similarity: " + str(i))
                 best_match_similarity = similarity
                 best_match_index = i
 
@@ -274,7 +267,7 @@ class Cushy_Select_Mask_Overlap:
             },
         }
 
-    RETURN_TYPES = ("MASK", "INT",)
+    RETURN_TYPES = ("IMAGE", "INT",)
     RETURN_NAMES = ("mask", "index",)
 
     FUNCTION = "find_largest_overlap_mask"
@@ -353,8 +346,6 @@ class Cushy_SAM_Segment_All:
 
         # Convert masks to tensor
         masks_tensor = torch.stack([torch.from_numpy(mask['segmentation']).float() for mask in masks], dim=0)
-        print("Masks tensor:")
-        print(masks_tensor.shape)
 
         # Create tensor for black and white mask images
         mask_images_bw = masks_tensor[:, None, :, :].repeat(1, 3, 1, 1)

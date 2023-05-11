@@ -38,5 +38,3 @@ def install():
         print("Unzipping weights.zip...")
         with ZipFile(BytesIO(response.content), 'r') as zip_ref:
             zip_ref.extractall(clipseg_models_directory)
-    else:
-        print(f"File exists: {weights_zip_file_path}. Skipping download.")

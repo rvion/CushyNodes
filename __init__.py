@@ -14,9 +14,7 @@ install_directory = os.path.join(base_directory, "install")
 # Import and execute all installation files in the /install directory
 install_files = glob.glob(os.path.join(install_directory, "*.py"))
 
-print(str(install_files))
 for install_file in install_files:
-    print(f"Installing from {install_file} ")
     install_module_name = os.path.splitext(os.path.basename(install_file))[0]
     
     spec = importlib.util.spec_from_file_location(install_module_name, install_file)
