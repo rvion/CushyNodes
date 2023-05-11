@@ -323,7 +323,7 @@ class Cushy_SAM_Segment_All:
         return {
             "required": {
                 "image": ("IMAGE",),
-                "vit_model": (["default", "vit_h", "vit_l", "vit_b"],),
+                "vit_model": (sam_model_registry.keys(),),
                 "sam_model_name": (get_files_in_directory(sam_models_directory), { "default": "sam_vit_h_4b8939.pth" }),
             },
         }
